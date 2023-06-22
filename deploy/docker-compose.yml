@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+      target: prod
+    image: fastapi:${FASTAPI_VERSION:-latest}
+    restart: always
+    env_file:
+    - .env
+    labels:
+      # Enables traefik for this container.
+    - traefik.enable=true
+    - traefik.http.routers.fastapi.rule=Host(`${FASTAPI_TRAEFIK_HOST:-fastapi.localhost}`)
+    - traefik.http.routers.fastapi.entrypoints=http
+    - traefik.http.routers.fastapi.service=fastapi
+    - traefik.http.services.fastapi.loadbalancer.server.port=${FASTAPI_PORT:-8000}
+    networks:
+    - default
+    - traefik-shared
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FASTAPI_HOST: 0.0.0.0
+      FASTAPI_DB_HOST: fastapi-db
+      FASTAPI_DB_PORT: 3306
+      FASTAPI_DB_USER: fastapi
+      FASTAPI_DB_PASS: fastapi
+      FASTAPI_DB_BASE: fastapi
+
+  db:
+    image: bitnami/mysql:8.0.30
+    hostname: fastapi-db
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: "fastapi"
+      MYSQL_ROOT_PASSWORD: "fastapi"
+      MYSQL_DATABASE: "fastapi"
+      MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+    healthcheck:
+      test: mysqladmin ping -h localhost
+      interval: 10s
+      timeout: 5s
+      retries: 40
+    volumes:
+    - fastapi-db-data:/bitnami/mysql/data
+
+  migrator:
+    image: fastapi:${FASTAPI_VERSION:-latest}
+    restart: "no"
+    command: alembic upgrade head
+    environment:
+      FASTAPI_DB_HOST: fastapi-db
+      FASTAPI_DB_PORT: 3306
+      FASTAPI_DB_USER: fastapi
+      FASTAPI_DB_PASS: fastapi
+      FASTAPI_DB_BASE: fastapi
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+
+volumes:
+  fastapi-db-data:
+    name: fastapi-db-data
+
+networks:
+  # Network for traefik.
+  traefik-shared:
+    name: traefik-shared
