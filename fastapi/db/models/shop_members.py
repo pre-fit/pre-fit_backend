@@ -4,7 +4,7 @@ from datetime import datetime
 from fastapi.db.base import Base
 
 
-class Shop_Members_Models(Base):
+class Shop_Members_Model(Base):
     """Model for demo purpose."""
 
     __tablename__ = "shop_members"
