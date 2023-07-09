@@ -6,7 +6,7 @@ from sqlalchemy import ForeignKey
 
 
 class Shop_Board_Comments_Model(Base):
-    """Model for shop_board_categories."""
+    """Model for shop_board_comments."""
 
     __tablename__ = "shop_board_comments"
     
