@@ -5,7 +5,7 @@ from fastapi.db.base import Base
 
 
 class Shop_Members_Model(Base):
-    """Model for demo purpose."""
+    """Model for shop_members."""
 
     __tablename__ = "shop_members"
 
@@ -29,23 +29,23 @@ class Shop_Members_Model(Base):
     member_approve: Mapped[str] = mapped_column(Boolean)  									# 관리자승인
     member_recommender: Mapped[str] = mapped_column(String(length=20))  					# 추천인
     
-    def __init__(self, member_num, member_id, member_name, member_password, member_phone, member_gender, member_birthday, member_email,member_recommender):
-        self.member_num = member_num
-        self.member_id = member_id
-        self.member_name = member_name
-        self.member_password = member_password
-        self.member_phone = member_phone
-        self.member_gender = member_gender
-        self.member_birthday = member_birthday
-        self.member_point = 0
-        self.member_email = member_email
-        self.member_grade = 0
-        self.member_join_date = datetime.now()
-        self.member_leave_date = None
-        self.member_join_falg = True
-        self.memeber_active = True
-        self.member_terms_of_service = False
-        self.member_privacy_policy = False
-        self.member_recive_marketing_info = False
-        self.member_approve = True
-        self.member_recommender = member_recommender
+    # def __init__(self, member_num, member_id, member_name, member_password, member_phone, member_gender, member_birthday, member_email,member_recommender):
+    #     self.member_num = member_num
+    #     self.member_id = member_id
+    #     self.member_name = member_name
+    #     self.member_password = member_password
+    #     self.member_phone = member_phone
+    #     self.member_gender = member_gender
+    #     self.member_birthday = member_birthday
+    #     self.member_point = 0
+    #     self.member_email = member_email
+    #     self.member_grade = 0
+    #     self.member_join_date = datetime.now()
+    #     self.member_leave_date = None
+    #     self.member_join_falg = True
+    #     self.memeber_active = True
+    #     self.member_terms_of_service = False
+    #     self.member_privacy_policy = False
+    #     self.member_recive_marketing_info = False
+    #     self.member_approve = True
+    #     self.member_recommender = member_recommender
