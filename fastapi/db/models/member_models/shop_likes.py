@@ -11,5 +11,5 @@ class Shop_Likes_Model(Base):
     __tablename__ = "shop_likes"
     
     member_num: Mapped[int] = mapped_column(Integer, ForeignKey("shop_members.member_num"), primary_key=True) 	# 회원번호    
-    item_num: Mapped[str] = mapped_column(Integer, ForeignKey("shop_items.item_num"))							# 상품번호
+    item_num: Mapped[int] = mapped_column(Integer, ForeignKey("shop_items.item_num"))							# 상품번호
     
