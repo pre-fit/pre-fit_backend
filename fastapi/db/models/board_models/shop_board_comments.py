@@ -12,9 +12,9 @@ class Shop_Board_Comments_Model(Base):
 
     __tablename__ = "shop_board_comments"
     
-    board_num: Mapped[int] = mapped_column(Integer, ForeignKey("shop_board_categories.board_categorie_num"), primary_key=True) 	# 문의번호    
+    board_num: Mapped[int] = mapped_column(Integer, ForeignKey("shop_question_boards.board_num"), primary_key=True) 			# 문의번호    
     member_num: Mapped[int] = mapped_column(Integer, ForeignKey("shop_members.member_num")) 									# 회원번호    
     comment_title: Mapped[str] = mapped_column(String(length=128))																# 답글제목
     comment_content: Mapped[str] = mapped_column(String(length=512))															# 답글내용
-    comment_create_date: Mapped[datetime] = mapped_column(DateTime)													# 답글등록날짜
+    comment_create_date: Mapped[datetime] = mapped_column(DateTime)																# 답글등록날짜
     
